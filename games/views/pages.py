@@ -211,6 +211,7 @@ def game_detail(request, slug):
 
     installers = game.installers.published()
     unpublished_installers = game.installers.unpublished()
+    issues = models.InstallerIssue.objects.filter(installer__game=game).order_by('installer__slug')
     pending_change_subm_count = 0
 
     if user.is_authenticated:
@@ -240,7 +241,8 @@ def game_detail(request, slug):
                    'installers': installers,
                    'auto_installers': auto_installers,
                    'unpublished_installers': unpublished_installers,
-                   'screenshots': screenshots})
+                   'screenshots': screenshots,
+                   'issues': issues})
 
 
 @user_confirmed_required
